@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="assets/logo.png" alt="excudra logo" width="200">
+<img src="assets/logo.svg" alt="excudra logo" width="180">
 
 # excudra
 
