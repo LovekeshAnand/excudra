@@ -1,10 +1,7 @@
 <div align="center">
 
-<img src="assets/logo.svg" alt="excudra logo" width="180">
+<img src="assets/banner.png" alt="excudra: guardrails and verified autonomy for Claude Code">
 
-# excudra
-
-**Guardrails and an autonomous build loop for Claude Code.**
 Free, local, open source. No account, no server, no telemetry.
 
 <img src="assets/demo.gif" alt="excudra blocking a force push, a hallucinated npm package and a database reset, then running a verified task loop" width="860">
