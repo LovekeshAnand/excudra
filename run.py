@@ -141,6 +141,11 @@ def git(cwd, *args):
     return subprocess.run(["git", *args], cwd=cwd, capture_output=True, text=True, encoding="utf-8").stdout.strip()
 
 
+def snapshot(cwd):
+    """Working tree state: file status plus unstaged and staged content."""
+    return git(cwd, "status", "--porcelain"), git(cwd, "diff"), git(cwd, "diff", "--cached")
+
+
 def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("tasks")
@@ -188,8 +193,11 @@ def main():
                     return print("\n■ Stopped: needs you. See tasks.md.")
                 git(cwd, "add", "-A")
                 diffstat = git(cwd, "diff", "--cached", "--stat", base) or "(no changes)"
+                before = snapshot(cwd)
                 verdict, _ = claude(VERIFIER.format(**fill, summary=work["summary"], base=base, diffstat=diffstat),
                                     VERDICT_SCHEMA, a.effort, read_only=True)
+                if snapshot(cwd) != before:  # read_only blocks Edit/Write, not Bash
+                    raise RuntimeError("verifier modified files")
                 print(f"  verifier: {'PASS' if verdict['pass'] else 'FAIL'}: {verdict['evidence'][:200]}", flush=True)
                 if verdict["pass"]:
                     mark(tasks_path, task, "x", f"verified: {verdict['evidence']}")

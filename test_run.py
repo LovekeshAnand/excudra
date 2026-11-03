@@ -44,6 +44,8 @@ def drive(tasks_text, script, *extra):
             self.left = budget
 
         def __call__(self, prompt, schema, effort, resume=None, read_only=False):
+            if script and callable(script[0]):
+                script.pop(0)(d)  # side effect before the reply, e.g. a verifier that edits files
             calls.append({"prompt": prompt, "verifier": schema is run.VERDICT_SCHEMA, "resume": resume, "read_only": read_only})
             assert script, f"unexpected extra claude call: {prompt[:80]}"
             return script.pop(0), f"s{len(calls)}"
@@ -91,5 +93,20 @@ assert log == ["excudra: start"], log
 text, calls, log = drive("- [ ] needs key\n- [ ] after\n", [{"status": "blocked", "summary": "no API key"}])
 assert "- [!] needs key\n  → blocked: no API key\n- [ ] after\n" in text, text
 assert len(calls) == 1 and log == ["excudra: start"]
+
+# verifier edits a tracked file -> [!] "verifier modified files", no commit, run stops
+def tamper(d):
+    with open(Path(d) / "tasks.md", "a", encoding="utf-8") as f:
+        f.write("tampered\n")
+
+
+text, calls, log = drive("- [ ] guarded\n- [ ] after\n", [done("built"), tamper, verdict(True)])
+assert "- [!] guarded\n  → error: verifier modified files\n- [ ] after\n" in text, text
+assert len(calls) == 2 and log == ["excudra: start"], log
+
+# verifier creates an untracked file -> same
+text, calls, log = drive("- [ ] guarded\n", [done("built"), lambda d: (Path(d) / "new.txt").write_text("x"), verdict(True)])
+assert "- [!] guarded\n  → error: verifier modified files\n" in text, text
+assert log == ["excudra: start"], log
 
 print("all run main() checks passed")
