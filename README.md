@@ -7,7 +7,7 @@ Free, local, open source. No account, no server, no telemetry.
 
 <img src="assets/demo.gif" alt="excudra blocking a force push, a hallucinated npm package and a database reset, then running a verified task loop" width="860">
 
-[Watch the 48-second launch video](assets/launch.mp4)
+[Watch the launch video (57s)](assets/launch.mp4)
 
 </div>
 
