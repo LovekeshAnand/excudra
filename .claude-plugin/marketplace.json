@@ -1,0 +1,12 @@
+{
+  "name": "excudra",
+  "owner": { "name": "Lovekesh Anand" },
+  "description": "Free local guardrails for Claude Code.",
+  "plugins": [
+    {
+      "name": "excudra",
+      "source": "./",
+      "description": "Free local guardrails for Claude Code."
+    }
+  ]
+}

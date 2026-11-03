@@ -1,0 +1,21 @@
+{
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash|PowerShell",
+        "hooks": [{ "type": "command", "command": "py=python; $py -c '' 2>/dev/null || py=python3; $py \"${CLAUDE_PLUGIN_ROOT}/guard.py\" pre" }]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [{ "type": "command", "command": "py=python; $py -c '' 2>/dev/null || py=python3; $py \"${CLAUDE_PLUGIN_ROOT}/guard.py\" stop" }]
+      }
+    ],
+    "SessionStart": [
+      {
+        "matcher": "compact",
+        "hooks": [{ "type": "command", "command": "py=python; $py -c '' 2>/dev/null || py=python3; $py \"${CLAUDE_PLUGIN_ROOT}/guard.py\" recall" }]
+      }
+    ]
+  }
+}
