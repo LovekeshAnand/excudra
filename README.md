@@ -1,5 +1,7 @@
 <div align="center">
 
+<img src="assets/logo.png" alt="excudra logo" width="140">
+
 # excudra
 
 **Guardrails and an autonomous build loop for Claude Code.**
