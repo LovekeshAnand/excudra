@@ -1,6 +1,6 @@
 {
   "name": "excudra",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "repository": "https://github.com/LovekeshAnand/excudra",
   "homepage": "https://github.com/LovekeshAnand/excudra",
   "description": "Free local guardrails for Claude Code: blocks destructive commands, hallucinated packages, and weakened tests; restores your exact requests after compaction.",
